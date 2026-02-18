@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/theme";
 
-// Layouts ve Pages
+
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import HaberManagement from "./pages/admin/haber/HaberManagement";

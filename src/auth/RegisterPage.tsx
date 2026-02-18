@@ -38,7 +38,6 @@ const RegisterPage = () => {
             alignItems: 'center', 
             justifyContent: 'flex-start',
             pt: { xs: 4, md: 2.5 },
-            // Güncellenmiş Modern Yeşil Gradyan
             background: 'linear-gradient(135deg, #064e3b 0%, #065f46 50%, #10b981 100%)', 
             position: 'fixed',
             top: 0,
@@ -58,7 +57,7 @@ const RegisterPage = () => {
                 }}>
                     <Avatar sx={{ 
                         mb: 2, 
-                        bgcolor: '#059669', // Modern Emerald Green
+                        bgcolor: '#059669',
                         width: 70, 
                         height: 70, 
                         boxShadow: '0 4px 10px rgba(0,0,0,0.2)' 

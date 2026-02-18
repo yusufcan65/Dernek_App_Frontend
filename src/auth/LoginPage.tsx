@@ -32,10 +32,10 @@ const LoginPage = () => {
             height: '100vh', 
             width: '100vw',
             display: 'flex', 
-            flexDirection: 'column', // Dikey hizalama için
+            flexDirection: 'column', 
             alignItems: 'center', 
-            justifyContent: 'flex-start', // En üstten başla
-            pt: { xs: 4, md: 1.25 }, // Üstten güvenli boşluk (Taşmayı önler)
+            justifyContent: 'flex-start',
+            pt: { xs: 4, md: 1.25 },
             background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%)',
             position: 'fixed',
             top: 0,
@@ -51,7 +51,7 @@ const LoginPage = () => {
                     bgcolor: 'rgba(255, 255, 255, 0.96)',
                     backdropFilter: 'blur(10px)',
                     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-                    mb: 4 // Alt kısımda boşluk bırakır
+                    mb: 4 
                 }}>
                     <Avatar sx={{ 
                         mb: 2, 

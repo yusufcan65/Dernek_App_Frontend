@@ -22,7 +22,7 @@ function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Admin ismini localStorage'dan çekiyoruz
+
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
   const adminName = user?.username || "Admin";
@@ -79,7 +79,7 @@ function Sidebar() {
             />
           </Box>
           
-          {/* Sadece Admin modundaysa ismi gösterir */}
+
           {isAdmin && (
             <Typography 
               variant="h6" 
@@ -97,7 +97,7 @@ function Sidebar() {
           </Typography>
         </Box>
 
-        {/* Ana Menü Listesi */}
+
         <List>
           {menuItems.map((item) => (
             <ListItemButton 
@@ -123,7 +123,7 @@ function Sidebar() {
         </List>
       </Box>
 
-      {/* Alt Kısım: Admin İşlemleri ve Çıkış */}
+
       <Box sx={{ mt: "auto" }}>
         {isAdmin && (
           <>
