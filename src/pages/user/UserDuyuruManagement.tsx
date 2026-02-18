@@ -47,7 +47,7 @@ function CustomToolbar() {
 export default function UserDuyuruManagement() {
   const [announcements, setAnnouncements] = useState<Duyuru[]>([]);
 
-  // Verileri ilk yükleme için çekiyoruz
+ 
   const fetchData = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/duyuru`);
@@ -60,7 +60,7 @@ export default function UserDuyuruManagement() {
   useEffect(() => {
     fetchData();
 
-    // --- WebSocket Bağlantısı Kurulumu ---
+    //  WebSocket Bağlantısı Kurulumu 
     const socket = new SockJS(`${BASE_URL}/ws`); // Backend'deki WebSocket endpoint'i
     const stompClient = over(socket);
 
