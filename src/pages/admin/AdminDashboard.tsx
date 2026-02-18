@@ -36,20 +36,20 @@ export default function AdminDashboard() {
     return `${BASE_URL}/uploads/${fileName}`;
   };
 
-  const latestNews = [...news].sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()).slice(0, 5);
-  const latestAnnouncements = [...announcements].sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()).slice(0, 5);
+  const latestNews = [...news].sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()).slice(0, 8);
+  const latestAnnouncements = [...announcements].sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()).slice(0, 8);
 
-  // Haberler Kolonları: flex 1-1-1 simetrisi
+
   const newsColumns: GridColDef[] = [
     { 
       field: "konu", 
-      headerName: "HABER BAŞLIĞI", 
+      headerName: "Haber Konusu", 
       flex: 1, 
       renderCell: (p) => <Typography variant="body2" fontWeight={700}>{p.value}</Typography> 
     },
     { 
       field: "createdDate", 
-      headerName: "TARİH", 
+      headerName: "Eklenme Tarihi", 
       flex: 1, 
       align: 'center', 
       headerAlign: 'center', 
@@ -58,12 +58,12 @@ export default function AdminDashboard() {
     {
   
     field: "haberLinki", 
-    headerName: "LİNK", 
+    headerName: "Haber Linki", 
     flex: 1, 
     align: 'right', 
     headerAlign: 'right',
     renderCell: (params) => {
-      // Link https ile başlamıyorsa ekle
+
       const url = params.value?.startsWith("http") ? params.value : `https://${params.value}`;
       return (
         <Tooltip title="Habere git" arrow>
@@ -81,17 +81,17 @@ export default function AdminDashboard() {
   },
   ];
 
-  // Duyurular Kolonları: flex 1-1-1 simetrisi
+
   const announcementColumns: GridColDef[] = [
     { 
       field: "resimYolu", 
-      headerName: "GÖRSEL", 
+      headerName: "Resim", 
       flex: 1, 
       renderCell: (p) => <Avatar src={getImageUrl(p.value)} variant="rounded" sx={{ width: 40, height: 40 }} /> 
     },
     { 
       field: "konu", 
-      headerName: "DUYURU KONUSU", 
+      headerName: "Duyuru Konusu", 
       flex: 1, 
       align: 'center', 
       headerAlign: 'center', 
@@ -99,7 +99,7 @@ export default function AdminDashboard() {
     },
     { 
       field: "createdDate", 
-      headerName: "TARİH", 
+      headerName: "Eklenme Tarihi", 
       flex: 1, 
       align: 'right', 
       headerAlign: 'right', 
@@ -111,31 +111,30 @@ export default function AdminDashboard() {
     <Box sx={{ width: "100%", height: "100%", display: "flex", bgcolor: "#fff", p: 2, overflow: "hidden" }}>
       <CssBaseline />
 
-      {/* HABERLER - SOL PANEL */}
+
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", p: 2, border: "1px solid #f0f0f0", borderRadius: 2 }}>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 3 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             <NewspaperIcon sx={{ fontSize: 32, color: "#1a73e8" }} />
-            <Typography variant="h4" fontWeight={900}>Haberler</Typography>
+            <Typography variant="h4" fontWeight={900}>Son Haberler</Typography>
           </Box>
-          <Chip label={`Toplam ${news.length} `} color="primary" sx={{ fontWeight: 800 }} />
+          <Chip label={`Toplam ${news.length} Haber`} color="primary" sx={{ fontWeight: 800 }} />
         </Box>
         <Box sx={{ flex: 1 }}>
           <DataGrid rows={latestNews} columns={newsColumns} hideFooter autoHeight disableRowSelectionOnClick sx={gridStyle} />
         </Box>
       </Box>
 
-      {/* İKİ TABLO ARASINDAKİ BOŞLUK */}
+ 
       <Box sx={{ width: 40 }} /> 
 
-      {/* DUYURULAR - SAĞ PANEL */}
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", p: 2, border: "1px solid #f0f0f0", borderRadius: 2 }}>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 3 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             <CampaignIcon sx={{ fontSize: 35, color: "#f59e0b" }} />
-            <Typography variant="h4" fontWeight={900}>Duyurular</Typography>
+            <Typography variant="h4" fontWeight={900}>Son Duyurular</Typography>
           </Box>
-          <Chip label={`Toplam ${announcements.length} `} sx={{ bgcolor: "#f59e0b", color: "#fff", fontWeight: 800 }} />
+          <Chip label={`Toplam ${announcements.length} Duyuru`} sx={{ bgcolor: "#f59e0b", color: "#fff", fontWeight: 800 }} />
         </Box>
         <Box sx={{ flex: 1 }}>
           <DataGrid rows={latestAnnouncements} columns={announcementColumns} hideFooter autoHeight disableRowSelectionOnClick sx={gridStyle} />
@@ -149,12 +148,12 @@ const gridStyle = {
   border: "none",
   "& .MuiDataGrid-columnHeaders": { 
     borderBottom: "2px solid #f0f0f0", 
-    fontWeight: 900, // Başlıklar kalın
-    fontSize: "0.85rem", // Başlık yazısı biraz daha büyük
+    fontWeight: 900, 
+    fontSize: "0.85rem", 
     color: "#333" 
   },
   "& .MuiDataGrid-columnHeaderTitle": {
-    fontWeight: "900 !important", // Başlık yazı tipini kesin olarak kalınlaştırır
+    fontWeight: "900 !important", 
   },
   "& .MuiDataGrid-cell": { 
     borderBottom: "1px solid #f9f9f9", 

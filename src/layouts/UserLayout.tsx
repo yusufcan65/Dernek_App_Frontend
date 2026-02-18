@@ -1,7 +1,7 @@
 import { Box, CssBaseline } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import UserSidebar from "../components/Sidebar"; // Kullanıcı için Sidebar
-import UserTopbar from "../components/Topbar";   // Kullanıcı için Topbar
+import UserSidebar from "../components/Sidebar"; 
+import UserTopbar from "../components/Topbar";   
 
 const drawerWidth = 260; 
 const topbarHeight = 64;
@@ -12,12 +12,12 @@ export default function UserLayout() {
       <CssBaseline />
       <UserTopbar />
       
-      {/* Sidebar Sabit Genişlikte */}
+      
       <Box component="nav" sx={{ width: drawerWidth, flexShrink: 0 }}>
         <UserSidebar />
       </Box>
 
-      {/* Ana İçerik Alanı: Kalan TÜM alanı kaplaması için */}
+      
       <Box
         component="main"
         sx={{
@@ -28,9 +28,9 @@ export default function UserLayout() {
           flexDirection: "column",
         }}
       >
-        <Box sx={{ height: topbarHeight }} /> {/* Topbar Boşluğu */}
+        <Box sx={{ height: topbarHeight }} /> 
 
-        {/* Outlet'in Render Edildiği Bölge */}
+        
         <Box sx={{ 
           flexGrow: 1, 
           width: "100%", 

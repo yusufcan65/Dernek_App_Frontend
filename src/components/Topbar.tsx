@@ -12,11 +12,11 @@ function Topbar() {
       sx={{
         width: `calc(100% - ${drawerWidth}px)`,
         ml: `${drawerWidth}px`,
-        bgcolor: "#1a237e", // Profesyonel koyu mavi
+        bgcolor: "#1a237e",
       }}
     >
       <Toolbar>
-        {/* Sol Taraftaki Başlık */}
+       
         <Typography
           variant="h6"
           noWrap
@@ -25,17 +25,15 @@ function Topbar() {
             fontWeight: 800,
             color: "#fff",
             letterSpacing: "1px",
-            flexGrow: 1, // Sağdaki ikonları en sağa itmek için gerekli
+            flexGrow: 1,
             fontSize: { xs: "0.8rem", md: "1rem" }
           }}
         >
-          CMW TEKNOLOJİ SOSYAL YARDIMLAŞMA VE DAYANIŞMA DERNEĞİ
+          CMW TEKNOLOJİ DİJİTAL DÖNÜŞÜM VE YAZILIM DERNEĞİ
         </Typography>
 
-        {/* Sağ Taraftaki İkonlar */}
         <Box sx={{ display: "flex", gap: 1 }}>
-          
-          {/* Web Sitesi İkonu */}
+
           <Tooltip title="Web Sitemizi Ziyaret Et">
             <IconButton
               component="a"
@@ -48,7 +46,6 @@ function Topbar() {
             </IconButton>
           </Tooltip>
 
-          {/* LinkedIn İkonu */}
           <Tooltip title="LinkedIn'de Takip Et">
             <IconButton
               component="a"

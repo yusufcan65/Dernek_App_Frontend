@@ -67,13 +67,12 @@ export default function UserDuyuruManagement() {
     stompClient.connect({}, () => {
       console.log("WebSocket bağlantısı başarılı!");
 
-      // Backend'deki "/topic/duyuru" kanalına abone oluyoruz
+
       stompClient.subscribe("/topic/duyuru", (payload) => {
         const yeniDuyuru = JSON.parse(payload.body);
         
-        // Yeni gelen duyuruyu listenin en başına ekleyerek tabloyu güncelliyoruz
+
         setAnnouncements((prev) => {
-          // Eğer aynı ID'li duyuru zaten varsa (güncelleme ise) onu değiştir, yoksa en başa ekle
           const exists = prev.find(d => d.id === yeniDuyuru.id);
           if (exists) {
             return prev.map(d => d.id === yeniDuyuru.id ? yeniDuyuru : d);
@@ -85,7 +84,6 @@ export default function UserDuyuruManagement() {
       console.error("WebSocket bağlantı hatası: ", error);
     });
 
-    // Bileşen kapandığında bağlantıyı temizle
     return () => {
       if (stompClient && stompClient.connected) {
         stompClient.disconnect();
@@ -222,7 +220,7 @@ const columns: GridColDef[] = [
       <CssBaseline />
 
       <Stack spacing={3} sx={{ height: "calc(100% - 20px)" }}>
-        {/* HEADER */}
+     
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 2 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <CampaignIcon sx={{ fontSize: 45, color: "#f59e0b" }} />
@@ -236,31 +234,58 @@ const columns: GridColDef[] = [
           />
         </Box>
 
-        {/* TABLO */}
-        <Box sx={{ flex: 1, width: "100%", bgcolor: "white", borderRadius: 2, boxShadow: "0 4px 12px rgba(0,0,0,0.05)", overflow: 'hidden' }}>
-          <DataGrid
-            rows={announcements}
-            columns={columns}
-            getRowId={(row) => row.id}
-            getRowHeight={() => 'auto'}
-            disableRowSelectionOnClick
-            slots={{ toolbar: CustomToolbar }}
-            
-            sx={gridStyle}
-            initialState={{
-              pagination: { 
-                paginationModel: { pageSize: 10, page: 0 } 
-              },
-            }}
-            pageSizeOptions={[5, 10, 25, 50]}
-            localeText={{
-              MuiTablePagination: {
-                labelRowsPerPage: 'Sayfa başı kayıt:',
-                labelDisplayedRows: ({ from, to, count }) => `${from}-${to} / ${count !== -1 ? count : `${to}'den fazla`}`
-              }
-            }}
-          />
-        </Box>
+     
+       <Box 
+  sx={{ 
+    width: "100%", 
+    height: 480, 
+    bgcolor: "white", 
+    borderRadius: 2, 
+    boxShadow: "0 4px 12px rgba(0,0,0,0.05)", 
+    display: "flex",
+    flexDirection: "column"
+  }}
+>
+  <DataGrid
+    rows={announcements}
+    columns={columns}
+    getRowId={(row) => row.id}
+    getRowHeight={() => 'auto'}
+    disableRowSelectionOnClick
+    slots={{ toolbar: CustomToolbar }}
+    
+    sx={{
+      ...gridStyle,
+      border: "none",
+
+      "& .MuiDataGrid-virtualScroller": {
+        overflowY: "auto", 
+      },
+
+      "& .MuiDataGrid-footerContainer": {
+        overflow: "hidden",
+        borderTop: "1px solid #e2e8f0",
+        minHeight: "52px", 
+      },
+      "& .MuiTablePagination-root": {
+        overflow: "hidden",
+      }
+    }}
+
+    initialState={{
+      pagination: { 
+        paginationModel: { pageSize: 10, page: 0 } 
+      },
+    }}
+    pageSizeOptions={[5, 10, 25, 50]}
+    localeText={{
+      MuiTablePagination: {
+        labelRowsPerPage: 'Sayfa başı kayıt:',
+        labelDisplayedRows: ({ from, to, count }) => `${from}-${to} / ${count !== -1 ? count : `${to}'den fazla`}`
+      }
+    }}
+  />
+</Box>
       </Stack>
     </Box>
   );

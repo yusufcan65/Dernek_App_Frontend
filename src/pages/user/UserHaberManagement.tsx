@@ -50,14 +50,14 @@ export default function UserHaberManagement() {
   const formatDate = (date?: string) =>
     date ? new Date(date).toLocaleDateString("tr-TR") : "-";
 
-  // TABLO SÜTUNLARI (TAM EŞİT VE ORTALANMIŞ)
+  
   const columns: GridColDef[] = [
     {
       field: "konu",
       headerName: "Haber Konusu",
-      flex: 1, // Diğerleriyle eşit pay
-      align: "center", // İçerik yatay orta
-      headerAlign: "center", // Başlık yatay orta
+      flex: 1, 
+      align: "center", 
+      headerAlign: "center", 
       renderCell: (params) => (
         <Typography variant="body2" fontWeight={700} sx={{ color: "#1e293b", textAlign: "center" }}>
           {params.value}
@@ -67,7 +67,7 @@ export default function UserHaberManagement() {
     {
       field: "createdDate",
       headerName: "Eklenme Tarihi",
-      flex: 1, // Diğerleriyle eşit pay
+      flex: 1, 
       align: "center", 
       headerAlign: "center",
       renderCell: (params) => (
@@ -79,7 +79,7 @@ export default function UserHaberManagement() {
     {
       field: "actions",
       headerName: "Haber Detayı",
-      flex: 1, // Diğerleriyle eşit pay
+      flex: 1, 
       align: "center", 
       headerAlign: "center",
       sortable: false,
@@ -105,15 +105,15 @@ export default function UserHaberManagement() {
   ];
 
   return (
-    <Box sx={{ width: "100%", height: "100%", bgcolor: "#fff", p: 4, overflow: "hidden" }}>
+    <Box sx={{ width: "100%", height: "83vh", bgcolor: "#fff", p: { xs: 2, md: 4 } }}>
       <CssBaseline />
 
-      <Stack spacing={4} sx={{ height: "100%" }}>
+      <Stack spacing={3} sx={{ height: "calc(100% - 20px)" }}>
         
-        {/* ÜST BAŞLIK ALANI */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 2 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <NewspaperIcon sx={{ fontSize: 40, color: "#1a73e8" }} />
+            <NewspaperIcon sx={{ fontSize: 45, color: "#1a73e8" }} />
             <Typography variant="h4" fontWeight={900} color="#0f172a" sx={{ letterSpacing: "-1px" }}>
               Güncel Haberler
             </Typography>
@@ -124,30 +124,67 @@ export default function UserHaberManagement() {
               fontWeight: 800, 
               bgcolor: "#1a73e8", 
               color: "#fff", 
-              borderRadius: 1.5,
-              fontSize: "0.9rem",
-              px: 1
+              borderRadius: 1.5, 
+              px: 1,
+              fontSize: "0.9rem" 
             }} 
           />
         </Box>
 
-        {/* TABLO ALANI */}
-        <Box sx={{ flex: 1, minWidth: 0 }}>
+
+        <Box 
+          sx={{ 
+            width: "100%", 
+            height: 480, 
+            bgcolor: "white", 
+            borderRadius: 2, 
+            boxShadow: "0 4px 12px rgba(0,0,0,0.05)", 
+            display: "flex",
+            flexDirection: "column"
+          }}
+        >
           <DataGrid
             rows={news}
             columns={columns}
             getRowId={(row) => row.id}
+            getRowHeight={() => 'auto'}
             disableRowSelectionOnClick
-            rowHeight={70}
-            sx={gridStyle}
+            
+            sx={{
+              ...gridStyle,
+              border: "none",
+
+              "& .MuiDataGrid-virtualScroller": {
+                overflowY: "auto", 
+              },
+
+              "& .MuiDataGrid-footerContainer": {
+                overflow: "hidden",
+                borderTop: "1px solid #e2e8f0",
+                minHeight: "52px", 
+              },
+              "& .MuiTablePagination-root": {
+                overflow: "hidden",
+              }
+            }}
+
             initialState={{
-              pagination: { paginationModel: { pageSize: 10 } },
+              pagination: { 
+                paginationModel: { pageSize: 10, page: 0 } 
+              },
+            }}
+            pageSizeOptions={[5, 10, 25, 50]}
+            localeText={{
+              MuiTablePagination: {
+                labelRowsPerPage: 'Sayfa başı kayıt:',
+                labelDisplayedRows: ({ from, to, count }) => `${from}-${to} / ${count !== -1 ? count : `${to}'den fazla`}`
+              }
             }}
           />
         </Box>
       </Stack>
 
-      {/* MODAL (Haber Detay) */}
+
       <Dialog
         open={!!selectedHaber}
         onClose={() => setSelectedHaber(null)}
@@ -212,29 +249,34 @@ export default function UserHaberManagement() {
     </Box>
   );
 }
-
-// TABLO STİLLERİ
-const gridStyle = {
+  const gridStyle = {
   border: "none",
   "& .MuiDataGrid-columnHeaders": {
     bgcolor: "#f8fafc",
     borderBottom: "2px solid #e2e8f0",
-  },
-  "& .MuiDataGrid-columnHeaderTitleContainer": {
-    justifyContent: "center", // Başlık başlığını kapsayıcı içinde ortalar
+    minHeight: "70px !important",
   },
   "& .MuiDataGrid-columnHeaderTitle": {
-    fontSize: "0.95rem",
     fontWeight: 900,
-    color: "#334155",
+    fontSize: "1rem",
+    whiteSpace: "normal",
+    wordBreak: "break-word",
     textAlign: "center",
   },
   "& .MuiDataGrid-cell": {
     borderBottom: "1px solid #f1f5f9",
     display: "flex",
-    justifyContent: "center", // Hücre içeriğini yatayda ortalar
-    alignItems: "center",     // Hücre içeriğini dikeyde ortalar
+    justifyContent: "center",
+    alignItems: "center",
+    py: 1,
+    whiteSpace: "normal",
+    wordBreak: "break-word",
+    textAlign: "center",
   },
   "& .MuiDataGrid-columnSeparator": { display: "none" },
-  "& .MuiDataGrid-row:hover": { bgcolor: "#f8fafc !important" },
+  "& .MuiDataGrid-footerContainer": {
+    borderTop: "2px solid #e2e8f0",
+    bgcolor: "#f8fafc"
+  },
+  "& .MuiDataGrid-row:hover": { bgcolor: "#f1f5f9 !important" },
 };

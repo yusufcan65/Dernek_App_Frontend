@@ -44,7 +44,6 @@ function HaberManagement() {
     haberLinki: "",
   });
 
-  // ================= FETCH =================
 
   const fetchHaberler = async () => {
     const res = await axios.get(API);
@@ -62,7 +61,7 @@ function HaberManagement() {
       return;
     }
     const today = new Date();
-    const todayStr = today.toISOString().split("T")[0]; // YYYY-MM-DD
+    const todayStr = today.toISOString().split("T")[0]; 
     if (form.gecerlilikTarihi < todayStr) {
       alert("Geçerlilik tarihi bugünden önce olamaz!");
       return;
@@ -87,7 +86,6 @@ function HaberManagement() {
     setOpen(false);
   };
 
-  // ================= DELETE =================
 
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -96,14 +94,12 @@ function HaberManagement() {
     fetchHaberler();
   };
 
-  // ================= EDIT =================
 
   const handleEdit = (row: Haber) => {
     setForm(row);
     setOpen(true);
   };
 
-  // ================= GRID =================
 
   const columns: GridColDef[] = [
     {
@@ -135,7 +131,7 @@ function HaberManagement() {
   align: "center",
   headerAlign: "center",
   renderCell: (params) => {
-    // Haber linki varsa https:// ekle
+
     const url = params.value?.startsWith("http") ? params.value : `https://${params.value}`;
     return (
       <Tooltip title="Habere git" arrow>
@@ -179,16 +175,17 @@ function HaberManagement() {
     },
   ];
 
-  // ================= UI =================
+
 
   return (
     <Box sx={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
-      {/* HEADER */}
+     
      <Stack
       direction="row"
       justifyContent="space-between"
       alignItems="center"
       mb={3}
+      sx={{ pt: 3 }} 
     >
       <Typography variant="h4" fontWeight={700}>
         Haber Yönetimi
@@ -207,7 +204,7 @@ function HaberManagement() {
 
 
 
-      {/* TABLE */}
+    
       <Paper
         sx={{
           flex: 1,
@@ -250,7 +247,7 @@ function HaberManagement() {
         />
       </Paper>
 
-      {/* DRAWER */}
+
       <Drawer anchor="right" open={open} onClose={resetForm} PaperProps={{ sx: { width: 460, p: 4 } }}>
         <Typography variant="h5" fontWeight={700} mb={3}>
           {form.id ? "Haber Güncelle" : "Yeni Haber"}
@@ -295,7 +292,7 @@ function HaberManagement() {
         </Stack>
       </Drawer>
 
-      {/* DELETE MODAL */}
+     
       <Dialog open={deleteId !== null} onClose={() => setDeleteId(null)} maxWidth="xs">
         <DialogContent sx={{ textAlign: "center", p: 4 }}>
           <WarningAmberIcon sx={{ fontSize: 60, color: "error.main", mb: 2 }} />

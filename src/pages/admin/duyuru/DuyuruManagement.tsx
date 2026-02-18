@@ -83,7 +83,7 @@ function DuyuruManagement() {
     }
 
     const today = new Date();
-    const todayStr = today.toISOString().split("T")[0]; // YYYY-MM-DD
+    const todayStr = today.toISOString().split("T")[0]; 
     if (form.gecerlilikTarihi < todayStr) {
       alert("Geçerlilik tarihi bugünden önce olamaz!");
       return;
@@ -224,10 +224,10 @@ function DuyuruManagement() {
           getRowId={(r) => r.id!}
           disableRowSelectionOnClick
           rowHeight={90}
-          pageSizeOptions={[10, 25, 50, 100]} // buraya 10'u ekledik
+          pageSizeOptions={[10, 25, 50, 100]} 
           initialState={{
             pagination: {
-              paginationModel: { pageSize: 10, page: 0 }, // başlangıç olarak 10 göster
+              paginationModel: { pageSize: 10, page: 0 },
             },
           }}
           sx={{
@@ -299,7 +299,7 @@ function DuyuruManagement() {
                 const yyyy = today.getFullYear();
                 const mm = String(today.getMonth() + 1).padStart(2, "0");
                 const dd = String(today.getDate()).padStart(2, "0");
-                return `${yyyy}-${mm}-${dd}`; // YYYY-MM-DD formatı
+                return `${yyyy}-${mm}-${dd}`; 
               })(),
             }}
           />

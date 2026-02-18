@@ -22,6 +22,7 @@ function App() {
           
           </Route>
           <Route path="/user" element={<UserLayout />}>
+            <Route index element={<UserHaberManagement />} />
             <Route path="haberler" element={<UserHaberManagement />} />
             <Route path="duyurular" element={<UserDuyuruManagement />} />
           </Route>

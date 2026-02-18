@@ -19,7 +19,7 @@ function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // URL "/admin" ile başlıyorsa Admin menüsünü, değilse User menüsünü göster
+
   const isAdmin = location.pathname.startsWith("/admin");
 
   const adminMenuItems = [
@@ -29,8 +29,8 @@ function Sidebar() {
   ];
 
   const userMenuItems = [
-    { text: "Haberler", icon: <ArticleIcon />, path: "/user/haberler" }, // [cite: 10]
-    { text: "Duyurular", icon: <CampaignIcon />, path: "/user/duyurular" }, // [cite: 11]
+    { text: "Haberler", icon: <ArticleIcon />, path: "/user/haberler" },
+    { text: "Duyurular", icon: <CampaignIcon />, path: "/user/duyurular" }, 
   ];
 
   const menuItems = isAdmin ? adminMenuItems : userMenuItems;
@@ -53,7 +53,7 @@ function Sidebar() {
         <Toolbar />
 
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mb: 2 }}>
-  {/* LOGO */}
+
   <Box sx={{ mb: 1 }}>
     <img
       src="/ikon/ikoncmw.png"
@@ -68,13 +68,13 @@ function Sidebar() {
     />
   </Box>
 
-  {/* DİNAMİK MENÜ BAŞLIĞI */}
+ 
   <Typography 
     variant="overline" 
     sx={{ 
       fontWeight: 700, 
       color: "text.secondary",
-      textAlign: "center" // yatay ortalama
+      textAlign: "center" 
     }}
   >
     {isAdmin ? "ADMİN PANELİ" : "KULLANICI PANELİ"}
@@ -83,13 +83,13 @@ function Sidebar() {
 
 
 
-        {/* MENÜ LİSTESİ */}
+ 
         <List>
           {menuItems.map((item) => (
             <ListItemButton 
               key={item.text} 
               onClick={() => navigate(item.path)}
-              selected={location.pathname === item.path} // Aktif sayfayı vurgula
+              selected={location.pathname === item.path} 
               sx={{
                 "&.Mui-selected": {
                   borderRight: `4px solid ${isAdmin ? "#1a73e8" : "#f59e0b"}`,
@@ -111,7 +111,7 @@ function Sidebar() {
         </List>
       </Box>
 
-      {/* FOOTER */}
+
       <Box sx={{ p: 2, textAlign: "center", borderTop: "1px solid #eee" }}>
         <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
           {isAdmin ? "Admin Mode" : "User Mode"}
