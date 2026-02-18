@@ -22,7 +22,7 @@ const RegisterPage = () => {
         e.preventDefault();
         try {
             await register(username, password); 
-            alert("Yeni admin başarıyla veritabanına kaydedildi.");
+            alert("Yeni admin başarıyla kaydedildi.");
             navigate("/admin", { replace: true }); 
         } catch (error) {
             alert("Kayıt sırasında bir hata oluştu! Lütfen bilgileri kontrol edin.");
