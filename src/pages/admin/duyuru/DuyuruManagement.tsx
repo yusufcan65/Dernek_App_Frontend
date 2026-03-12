@@ -21,7 +21,6 @@ import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import axios from "axios";
-
 import BASE_URL from "../../../BaseUrl";
 
 const API = `${BASE_URL}/api/duyuru`;
@@ -46,8 +45,15 @@ function DuyuruManagement() {
     resimFile: null,
   });
 
+  const getAuthHeaders = () => {
+    const user = localStorage.getItem("user");
+    if (!user) return {};
+    const token = JSON.parse(user).token;
+    return { Authorization: `Bearer ${token}` };
+  };
+
   const fetchDuyurular = async () => {
-    const res = await axios.get(API);
+    const res = await axios.get(API); 
     setDuyurular(res.data);
   };
 
@@ -55,31 +61,27 @@ function DuyuruManagement() {
     fetchDuyurular();
   }, []);
 
-  const getImageUrl = (path?: string) => {
-    if (!path) return "";
-    const fileName =
-      path.split("\\").pop() || path.split("/").pop();
-    return `${BASE_URL}/uploads/${fileName}?t=${Date.now()}`;
-  };
+const getImageUrl = (path?: string) => {
+  if (!path) return "";
+
+  const fileName = path.split(/[\\/]/).pop();
+
+  if (!fileName) return "";
+
+  const safeFileName = encodeURIComponent(fileName);
+
+  return `${BASE_URL}/uploads/${safeFileName}?t=${Date.now()}`;
+};
 
   const handleSave = async () => {
-    if (!form.konu) {
-      alert("Konu alanı boş olamaz!");
+    if (!form.konu || !form.icerik || !form.gecerlilikTarihi) {
+      alert("Lütfen tüm alanları doldurun!");
       return;
     }
 
-    if (!form.icerik) {
-      alert("İçerik alanı boş olamaz!");
-      return;
-    }
-
-    if (!form.gecerlilikTarihi) {
-      alert("Geçerlilik Tarihi alanı boş olamaz!");
-      return;
-    }
     if (!form.resimFile && !form.resimYolu) {
-    alert("Lütfen bir Resim seçin Resim alanı boş olamaz!");
-    return;
+      alert("Lütfen bir resim seçin!");
+      return;
     }
 
     const today = new Date();
@@ -93,11 +95,13 @@ function DuyuruManagement() {
     fd.append("konu", form.konu);
     fd.append("icerik", form.icerik);
     fd.append("gecerlilikTarihi", form.gecerlilikTarihi);
-
     if (form.resimFile) fd.append("resimYolu", form.resimFile);
 
     const config = {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        ...getAuthHeaders(), 
+      },
     };
 
     if (form.id) {
@@ -109,7 +113,6 @@ function DuyuruManagement() {
     await fetchDuyurular();
     resetForm();
   };
-
 
   const resetForm = () => {
     setForm({
@@ -123,7 +126,10 @@ function DuyuruManagement() {
 
   const handleDelete = async () => {
     if (!deleteId) return;
-    await axios.delete(`${API}/sil/${deleteId}`);
+
+    await axios.delete(`${API}/sil/${deleteId}`, {
+      headers: getAuthHeaders(), 
+    });
     setDeleteId(null);
     fetchDuyurular();
   };

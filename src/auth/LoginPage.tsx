@@ -18,14 +18,20 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            await login(username, password);
-            navigate("/admin");
-        } catch (error) {
-            alert("Hatalı kullanıcı adı veya şifre!");
+    e.preventDefault();
+    try {
+        const data = await login(username, password);
+
+        if (data?.token) {  // token var mı kontrol et
+            navigate("/admin");  // token varsa yönlendir
+        } else {
+            alert("Giriş başarısız!");
         }
-    };
+    } catch (error) {
+        console.error(error);
+        alert("Hatalı kullanıcı adı veya şifre!");
+    }
+};
 
     return (
         <Box sx={{ 

@@ -18,12 +18,8 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import axios from "axios";
 import { Tooltip } from "@mui/material";
-
-import BASE_URL from "../../../BaseUrl";
-
-const API = `${BASE_URL}/api/haber`;
+import api from "../../../api"; // interceptor kullanan api.ts
 
 interface Haber {
   id?: number;
@@ -44,37 +40,14 @@ function HaberManagement() {
     haberLinki: "",
   });
 
-
   const fetchHaberler = async () => {
-    const res = await axios.get(API);
+    const res = await api.get("/api/haber"); // token otomatik ekleniyor
     setHaberler(res.data);
   };
 
   useEffect(() => {
     fetchHaberler();
   }, []);
-
-
-  const handleSave = async () => {
-    if (!form.konu || !form.icerik || !form.gecerlilikTarihi || !form.haberLinki) {
-      alert("Lütfen tüm alanları doldurun!");
-      return;
-    }
-    const today = new Date();
-    const todayStr = today.toISOString().split("T")[0]; 
-    if (form.gecerlilikTarihi < todayStr) {
-      alert("Geçerlilik tarihi bugünden önce olamaz!");
-      return;
-    }
-    if (form.id) {
-      await axios.put(`${API}/guncelle/${form.id}`, form);
-    } else {
-      await axios.post(`${API}/ekle`, form);
-    }
-
-    await fetchHaberler();
-    resetForm();
-  };
 
   const resetForm = () => {
     setForm({
@@ -86,20 +59,47 @@ function HaberManagement() {
     setOpen(false);
   };
 
+  const handleSave = async () => {
+    if (!form.konu || !form.icerik || !form.gecerlilikTarihi || !form.haberLinki) {
+      alert("Lütfen tüm alanları doldurun!");
+      return;
+    }
+
+    const today = new Date();
+    const todayStr = today.toISOString().split("T")[0];
+    if (form.gecerlilikTarihi < todayStr) {
+      alert("Geçerlilik tarihi bugünden önce olamaz!");
+      return;
+    }
+
+    try {
+      if (form.id) {
+        await api.put(`/api/haber/guncelle/${form.id}`, form); // JWT header otomatik
+      } else {
+        await api.post(`/api/haber/ekle`, form); // JWT header otomatik
+      }
+      await fetchHaberler();
+      resetForm();
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Haber ekleme/güncelleme sırasında hata oluştu!");
+    }
+  };
 
   const handleDelete = async () => {
     if (!deleteId) return;
-    await axios.delete(`${API}/sil/${deleteId}`);
-    setDeleteId(null);
-    fetchHaberler();
+    try {
+      await api.delete(`/api/haber/sil/${deleteId}`); // JWT header otomatik
+      setDeleteId(null);
+      fetchHaberler();
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Haber silme sırasında hata oluştu!");
+    }
   };
-
 
   const handleEdit = (row: Haber) => {
     setForm(row);
     setOpen(true);
   };
-
 
   const columns: GridColDef[] = [
     {
